@@ -1,0 +1,188 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/sea_green"
+    tools:context=".GuessActivity" >
+
+    <Button
+        android:id="@+id/buttonDone"
+        android:background="@android:drawable/btn_default"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:onClick="onDone"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        android:text="@string/button_done" />
+
+	<TextView
+        android:id="@+id/textViewP1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:paddingTop="5dp"
+        android:paddingRight="5dp"
+        android:paddingLeft="5dp"
+        android:text="@string/text_scoreP1"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/editTextAnswer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/buttonDone"
+        android:layout_alignLeft="@+id/buttonDone"
+        android:layout_alignParentRight="true"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:hint="@string/text_hint" >
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/textViewHintDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/editTextAnswer"
+        android:layout_alignLeft="@+id/buttonDone"
+        android:layout_alignParentRight="true"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/textViewCategoryType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/textViewCategory"
+        android:paddingBottom="5dp"
+        android:paddingLeft="5dp"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/textViewCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textViewCategoryType"
+        android:layout_alignParentLeft="true"
+        android:paddingBottom="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="40dp"
+        android:paddingTop="5dp"
+        android:text="@string/text_category"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/textViewAnswer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/editTextAnswer"
+        android:layout_alignLeft="@+id/editTextAnswer"
+        android:paddingBottom="15dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="15dp"
+        android:text="@string/text_answer_guess"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/textViewTipText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textViewAnswer"
+        android:layout_alignLeft="@+id/textViewAnswer"
+        android:layout_alignParentRight="true"
+        android:paddingBottom="10dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="10dp"
+        android:text="@string/not_available"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/textViewTip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textViewTipText"
+        android:layout_alignLeft="@+id/textViewTipText"
+        android:paddingBottom="10dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="10dp"
+        android:text="@string/text_tip_guess"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+	<edu.msu.monopoly.project2.DrawingView
+	    android:id="@+id/guessingView"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentTop="true"
+	    android:layout_toLeftOf="@+id/buttonDone"
+	    android:layout_toRightOf="@+id/textViewCategoryType"
+	    android:background="@color/white" />
+
+	<TextView
+	    android:id="@+id/textViewTimeLeft"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_above="@+id/textViewCategory"
+	    android:layout_alignParentLeft="true"
+	    android:layout_toLeftOf="@+id/guessingView"
+	    android:paddingBottom="5dp"
+	    android:paddingLeft="5dp"
+	    android:paddingTop="5dp"
+	    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+	<TextView
+	    android:id="@+id/textViewTime"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_above="@+id/textViewTimeLeft"
+	    android:layout_alignParentLeft="true"
+	    android:paddingBottom="5dp"
+	    android:paddingLeft="5dp"
+	    android:paddingRight="5dp"
+	    android:paddingTop="5dp"
+	    android:text="@string/text_time"
+	    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+	<TextView
+	    android:id="@+id/textViewScoreP1"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentLeft="true"
+	    android:layout_below="@+id/textViewP1"
+	    android:layout_toLeftOf="@+id/guessingView"
+	    android:paddingBottom="5dp"
+	    android:paddingLeft="5dp"
+	    android:paddingTop="5dp"
+	    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+	<TextView
+	    android:id="@+id/textViewP2"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentLeft="true"
+	    android:layout_below="@+id/textViewScoreP1"
+	    android:paddingLeft="5dp"
+	    android:paddingRight="5dp"
+	    android:text="@string/text_scoreP2"
+	    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+	<TextView
+	    android:id="@+id/textViewScoreP2"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentLeft="true"
+	    android:layout_below="@+id/textViewP2"
+	    android:layout_toLeftOf="@+id/guessingView"
+	    android:paddingBottom="5dp"
+	    android:paddingLeft="5dp"
+	    android:paddingTop="5dp"
+	    android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+</RelativeLayout>

@@ -1,0 +1,199 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/sea_green"
+    tools:context=".GuessActivity" >
+
+	<TextView
+        android:id="@+id/textViewCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:paddingBottom="15dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="15dp"
+        android:text="@string/text_category"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/textViewScoreP1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textViewP1"
+        android:layout_alignLeft="@+id/textViewHintDescription"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:paddingBottom="5dp"
+        android:paddingTop="15dp"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/textViewScoreP2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textViewP2"
+        android:layout_alignLeft="@+id/textViewScoreP1"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/textViewP2"
+        android:paddingBottom="15dp"
+        android:paddingTop="10dp"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/textViewAnswer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:paddingBottom="15dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="15dp"
+        android:text="@string/text_answer_guess"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/textViewHintDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textViewTip"
+        android:layout_alignTop="@+id/buttonDone"
+        android:layout_toLeftOf="@+id/buttonDone"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <edu.msu.monopoly.project2.DrawingView
+        android:id="@+id/guessingView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textViewTip"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/textViewScoreP2"
+        android:background="@color/white" />
+
+    <TextView
+        android:id="@+id/textViewTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textViewP2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/textViewP2"
+        android:paddingBottom="10dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="10dp"
+        android:text="@string/text_time"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <Button
+        android:id="@+id/buttonDone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="@android:drawable/btn_default"
+        android:onClick="onDone"
+        android:paddingBottom="37dp"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:paddingTop="37dp"
+        android:text="@string/button_done" />
+
+    <TextView
+        android:id="@+id/textViewTipText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textViewTip"
+        android:layout_alignBottom="@+id/textViewHintDescription"
+        android:layout_below="@+id/guessingView"
+        android:layout_toLeftOf="@+id/textViewHintDescription"
+        android:layout_toRightOf="@+id/textViewTip"
+        android:paddingBottom="10dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="10dp"
+        android:text="@string/not_available"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/textViewTip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textViewAnswer"
+        android:layout_alignParentLeft="true"
+        android:paddingBottom="15dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="15dp"
+        android:text="@string/text_tip_guess"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/editTextAnswer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewHintDescription"
+        android:layout_toLeftOf="@+id/buttonDone"
+        android:layout_toRightOf="@+id/textViewAnswer"
+        android:ems="10"
+        android:hint="@string/text_hint"
+        android:inputType="textPersonName"
+        android:paddingBottom="15dp"
+        android:paddingRight="5dp"
+        android:paddingTop="15dp" >
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/textViewP1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/buttonDone"
+        android:paddingBottom="15dp"
+        android:paddingRight="5dp"
+        android:paddingTop="15dp"
+        android:text="@string/text_scoreP1"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/textViewCategoryType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/textViewP1"
+        android:layout_toRightOf="@+id/textViewCategory"
+        android:paddingBottom="15dp"
+        android:paddingRight="5dp"
+        android:paddingTop="15dp"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/textViewP2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewScoreP1"
+        android:layout_toLeftOf="@+id/textViewScoreP2"
+        android:paddingBottom="15dp"
+        android:paddingRight="5dp"
+        android:paddingTop="10dp"
+        android:text="@string/text_scoreP2"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/textViewTimeLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/guessingView"
+        android:layout_alignBaseline="@+id/textViewTime"
+        android:layout_toLeftOf="@+id/textViewP1"
+        android:layout_toRightOf="@+id/textViewTime"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+</RelativeLayout>

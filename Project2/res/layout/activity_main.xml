@@ -1,0 +1,91 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:background="@color/sea_green"
+    tools:context=".MainActivity" >
+
+        <TextView
+            android:id="@+id/textViewPlayers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/editTextPlayer1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:text="@string/text_start"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <EditText
+            android:id="@+id/editTextPlayer2"
+            android:maxLength="10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/buttonLayout"
+            android:layout_alignLeft="@+id/editTextPlayer1"
+            android:layout_marginBottom="10dp"
+            android:ems="10"
+            android:hint="@string/hint_player2"
+            android:inputType="textPersonName"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp" />
+
+        <EditText
+            android:id="@+id/editTextPlayer1"
+            android:maxLength="10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/editTextPlayer2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:ems="10"
+            android:hint="@string/hint_player1"
+            android:inputType="textPersonName"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp" >
+
+            <requestFocus />
+        </EditText>
+
+        <LinearLayout
+            android:id="@+id/buttonLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" >
+
+            <Button
+                android:id="@+id/buttonStart"
+                android:background="@android:drawable/btn_default"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onStartGame"
+                android:text="@string/start_game" />
+
+            <Button
+                android:id="@+id/buttonHowToPlay"
+                android:background="@android:drawable/btn_default"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onHowToPlay"
+                android:text="@string/how_to_play" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/planeImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/textViewPlayers"
+            android:layout_alignLeft="@+id/buttonLayout"
+            android:layout_alignParentTop="true"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/plane_description"
+            android:padding="20dp"
+            android:src="@drawable/plane" />
+
+</RelativeLayout>

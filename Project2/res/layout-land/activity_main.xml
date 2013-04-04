@@ -1,0 +1,95 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:background="@color/sea_green"
+    tools:context=".MainActivity" >
+
+    <ImageView
+        android:id="@+id/planeImage"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_gravity="center"
+        android:contentDescription="@string/plane_description"
+        android:padding="20dp"
+        android:src="@drawable/plane"
+        android:adjustViewBounds="true" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/planeImage"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="20dp" >
+
+        <TextView
+            android:id="@+id/textViewPlayers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:text="@string/text_start"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+        
+            <LinearLayout
+                android:id="@+id/buttonLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical" >
+
+                <EditText
+                    android:id="@+id/editTextPlayer1"
+                    android:maxLength="10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:hint="@string/hint_player1"
+                    android:inputType="textPersonName"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp" />
+
+                <EditText
+                    android:id="@+id/editTextPlayer2"
+                    android:maxLength="10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:hint="@string/hint_player2"
+                    android:inputType="textPersonName"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp" />
+
+                <Button
+                    android:id="@+id/buttonStart"
+                    android:background="@android:drawable/btn_default"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:onClick="onStartGame"
+                    android:paddingRight="15dp"
+                    android:paddingLeft="15dp"
+                    android:text="@string/start_game" />
+
+                <Button
+                    android:id="@+id/buttonHowToPlay"
+                    android:background="@android:drawable/btn_default"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:onClick="onHowToPlay"
+                    android:paddingRight="10dp"
+                    android:paddingLeft="10dp"
+                    android:text="@string/how_to_play" />
+            </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>
