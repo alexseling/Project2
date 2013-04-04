@@ -13,10 +13,15 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
+//	/**
+//     * The edit text for entering player 2 name
+//     */
+//	private EditText editTextPlayer2 = null;
+	
 	/**
-     * The edit text for entering player 2 name
-     */
-	private EditText editTextPlayer2 = null;
+	 * The edit text for entering the password
+	 */
+	private EditText editTextPass = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -26,14 +31,17 @@ public class MainActivity extends Activity {
 		/*
          * Get some of the views we'll keep around
          */
-        editTextPlayer2 = (EditText)findViewById(R.id.editTextPlayer2);
+        //editTextPlayer2 = (EditText)findViewById(R.id.editTextPlayer2);
+        editTextPass = (EditText)findViewById(R.id.editPassword);
         
         /*
          * Change the Done button to Start Game
          */
-        editTextPlayer2.setImeActionLabel("Start Game", KeyEvent.KEYCODE_ENTER);
+        //editTextPlayer2.setImeActionLabel("Start Game", KeyEvent.KEYCODE_ENTER);
+        editTextPass.setImeActionLabel("Start", KeyEvent.KEYCODE_ENTER);
         
-        editTextPlayer2.setOnKeyListener(new TextView.OnKeyListener() {
+        //editTextPlayer2.setOnKeyListener(new TextView.OnKeyListener() {
+        editTextPass.setOnKeyListener(new TextView.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 // If the event is a key-down event on the "enter" button
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
@@ -53,27 +61,52 @@ public class MainActivity extends Activity {
      */
     public void onStartGame(View view) {
     	Game game = new Game();
+//    	
+//    	// Get player names, set in game
+//    	EditText p1Text = (EditText)findViewById(R.id.editTextPlayer1);
+//    	EditText p2Text = (EditText)findViewById(R.id.editTextPlayer2);
     	
-    	// Get player names, set in game
-    	EditText p1Text = (EditText)findViewById(R.id.editTextPlayer1);
-    	EditText p2Text = (EditText)findViewById(R.id.editTextPlayer2);
+    	// Added by Justin Fila
+    	// Get the username and password
+    	EditText userText = (EditText)findViewById(R.id.editUserName);
+    	EditText passText = (EditText)findViewById(R.id.editPassword);
     	
-    	if(p1Text.length() != 0)
-    		game.setPlayer1Name(p1Text.getText().toString());
-    	else
-    		game.setPlayer1Name(getString(R.string.hint_player1));
-    	if(p2Text.length() != 0)
-    		game.setPlayer2Name(p2Text.getText().toString());
-    	else
-    		game.setPlayer2Name(getString(R.string.hint_player2));
+    	if(userText.length() != 0 && passText.length() != 0)
+    	{
+    		//game.setPlayer1Name(userText.getText().toString());
+    		Intent intent = new Intent(this, WatingActivity.class);
+    		// game.setPlayer1Name...
+    		
+    		// check username and password...
+    		
+    		// if username and password is correct...
+    		
+        	game.setPlayer1Name(userText.getText().toString());
+    		
+        	intent.putExtra("GAME", game);
+			startActivity(intent);
+    	} else {
+    		//game.setPlayer2Name(getString(R.string.hint_password));
+    	}
+    	//
+    	
+    	
+//    	if(p1Text.length() != 0)
+//    		game.setPlayer1Name(p1Text.getText().toString());
+//    	else
+//    		game.setPlayer1Name(getString(R.string.hint_player1));
+//    	if(p2Text.length() != 0)
+//    		game.setPlayer2Name(p2Text.getText().toString());
+//    	else
+//    		game.setPlayer2Name(getString(R.string.hint_player2));
     	
     	
     	// Pick a category
-    	game.randomlySelectCategory();
-    	
-    	Intent intent = new Intent(this, EditActivity.class);
-    	intent.putExtra("GAME", game);
-		startActivity(intent);
+//    	game.randomlySelectCategory();
+//    	
+//    	Intent intent = new Intent(this, EditActivity.class);
+//    	intent.putExtra("GAME", game);
+//		startActivity(intent);
 	}
 
     /**

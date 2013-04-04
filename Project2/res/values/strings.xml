@@ -39,6 +39,9 @@
     <string name="winner_string">Player X Wins!</string>
     <string name="quit">Quit to Main?</string>
     <string name="how_to_play">How To Play</string>
+    <string name="hint_username">Username</string>
+    <string name="hint_password">Password</string>
+    <string name="waiting">Waiting for second player...</string>
     <string name="how_to_play_text">  \n Winning:\n\n
        
        The first player to 500 points wins. Points are awarded based on the time remaining on the clock.\n\n
@@ -51,10 +54,9 @@
         a hint for the other player. These must be entered for play to continue. Once this is complete, press \'Ok\' and pass to the guessing player.\n\n
         
         The guessing player has 2:20 to guess the correct answer. After 1:10, the previously entered hint appears. If the guessing player fails to correctly 
-        guess the answer in the allotted time, no points are awarded. After time expires or the player guesses correctly, it is now their turn to draw.\n\n
-        
-        </string>
+        guess the answer in the allotted time, no points are awarded. After time expires or the player guesses correctly, it is now their turn to draw.\n\n</string>
     <string name="new_game">New game</string>
     <string name="not_available">N/A</string>
+    <string name="title_activity_wating">WatingActivity</string>
 
-</resources> 
+</resources>
