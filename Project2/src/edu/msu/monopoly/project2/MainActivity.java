@@ -61,6 +61,7 @@ public class MainActivity extends Activity {
      */
     public void onStartGame(View view) {
     	Game game = new Game();
+    	Cloud cloud = new Cloud();
 //    	
 //    	// Get player names, set in game
 //    	EditText p1Text = (EditText)findViewById(R.id.editTextPlayer1);
@@ -78,6 +79,7 @@ public class MainActivity extends Activity {
     		// game.setPlayer1Name...
     		
     		// check username and password...
+    		cloud.login(userText.toString(), passText.toString());
     		
     		// if username and password is correct...
     		

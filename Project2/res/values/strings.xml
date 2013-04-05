@@ -14,7 +14,7 @@
     <string name="button_done">Done</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_color_select">ColorSelectActivity</string>
-    <string name="text_start">Enter Players\' Names:</string>
+    <string name="text_start">Login Below</string>
     <string name="text_scoreP1">Player 1:</string>
     <string name="text_scoreP2">Player 2:</string>
     <string name="title_activity_edit">Project 1</string>
@@ -41,7 +41,8 @@
     <string name="how_to_play">How To Play</string>
     <string name="hint_username">Username</string>
     <string name="hint_password">Password</string>
-    <string name="waiting">Waiting for second player...</string>
+    <string name="waiting">Waiting for second player9&#8230;</string>
+    <string name="rememberMe">Remember Me</string>
     <string name="how_to_play_text">  \n Winning:\n\n
        
        The first player to 500 points wins. Points are awarded based on the time remaining on the clock.\n\n
