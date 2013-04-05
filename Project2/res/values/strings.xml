@@ -46,6 +46,9 @@
     <string name="rememberMe">Remember Me</string>
     <string name="empty"></string>
     <string name="newUser">New User</string>
+    <string name="newuser_success">Successfully created user</string>
+    <string name="newuser_fail">Error - Could not create user</string>
+    <string name="newuser_passfail">Must match passwords</string>
     <string name="login_fail">Failed to login</string>
     <string name="login_info">Enter User Information</string>
     <string name="how_to_play_text">  \n Winning:\n\n

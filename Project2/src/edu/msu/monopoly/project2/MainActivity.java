@@ -178,7 +178,7 @@ public class MainActivity extends Activity {
      * Handle a new user
      * @param view
      */
-    public void onNewUser(View view) {
+    public void onNewUser(final View view) {
     	// The drawing is done
         // Instantiate a dialog box builder
         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
@@ -194,14 +194,56 @@ public class MainActivity extends Activity {
         builder.setView(inflater.inflate(R.layout.dialog_newuser, null))
         // Add action buttons
            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+               	   
                @Override
                public void onClick(DialogInterface dialog, int id) {
-            	   EditText newUser = (EditText)findViewById(R.id.editNewUser);
-            	   EditText newPassword = (EditText)findViewById(R.id.editNewPassword);
-            	   EditText newPasswordConfirm = (EditText)findViewById(R.id.editNewPasswordConfirm);
             	   
-            	   //if passwords equal..
-            	   cloud.addNewUser(newUser.getText().toString(), newPassword.getText().toString());
+            	   // get references to the edit text fields
+	         	   final EditText newUser = (EditText)((AlertDialog) dialog).findViewById(R.id.editNewUser);
+	         	   final EditText newPassword = (EditText)((AlertDialog) dialog).findViewById(R.id.editNewPassword);
+	         	   final EditText newPasswordConfirm = (EditText)((AlertDialog) dialog).findViewById(R.id.editNewPasswordConfirm);
+	         	   
+            	   String newPasswordString = newPassword.getText().toString();
+            	   String newPasswordConfirmString = newPasswordConfirm.getText().toString();
+            	   
+            	   // check if the two passwords are equal
+            	   if (newPasswordString.equals(newPasswordConfirmString) ) {
+            		   // create a new user
+            		   boolean isValidUser = cloud.addNewUser(newUser.getText().toString(), newPassword.getText().toString());
+                     
+            		   //boolean isValidUser = false;
+            		   if (isValidUser) {
+                    	   // Success!
+	            		   view.post(new Runnable() {
+	
+	                           @Override
+	                           public void run() {
+	                               Toast.makeText(view.getContext(), R.string.newuser_success, Toast.LENGTH_SHORT).show();
+	                           }
+	                           
+	                       });
+                       } else {
+                    	   // Error condition!
+	            		   view.post(new Runnable() {
+	            				
+	                           @Override
+	                           public void run() {
+	                               Toast.makeText(view.getContext(), R.string.newuser_fail, Toast.LENGTH_SHORT).show();
+	                           }
+	                           
+	                       });
+                       }
+            	   } else {
+                       // Error condition!
+                       view.post(new Runnable() {
+
+                           @Override
+                           public void run() {
+                               Toast.makeText(view.getContext(), R.string.newuser_passfail, Toast.LENGTH_SHORT).show();
+                           }
+                           
+                       });
+            	   }
                }
            }); 
         
