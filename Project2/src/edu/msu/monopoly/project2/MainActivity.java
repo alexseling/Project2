@@ -8,8 +8,10 @@ import android.content.Intent;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
@@ -22,6 +24,11 @@ public class MainActivity extends Activity {
 	 * The edit text for entering the password
 	 */
 	private EditText editTextPass = null;
+	
+	/**
+	 * holds whether or not the user wants to be remembered
+	 */
+	private boolean rememberMe = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +66,16 @@ public class MainActivity extends Activity {
      * Handle a Start Game button
      * @param view
      */
-    public void onStartGame(View view) {
+    public void onStartGame(final View view) {
     	Game game = new Game();
     	Cloud cloud = new Cloud();
+    	
+    	/*
+    	 * grab whether or not the rememberMe box is checked
+    	 */
+    	CheckBox checkbox = (CheckBox)findViewById(R.id.checkBoxRememberMe);
+    	rememberMe = checkbox.isChecked();
+    	
 //    	
 //    	// Get player names, set in game
 //    	EditText p1Text = (EditText)findViewById(R.id.editTextPlayer1);
@@ -79,14 +93,25 @@ public class MainActivity extends Activity {
     		// game.setPlayer1Name...
     		
     		// check username and password...
-    		cloud.login(userText.getText().toString(), passText.getText().toString());
+    		boolean validLogin = cloud.login(userText.getText().toString(), passText.getText().toString());
     		
     		// if username and password is correct...
-    		
-        	game.setPlayer1Name(userText.getText().toString());
-    		
-        	intent.putExtra("GAME", game);
-			startActivity(intent);
+    		if (!validLogin) {
+                // Error condition!
+                view.post(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        Toast.makeText(view.getContext(), R.string.login_fail, Toast.LENGTH_SHORT).show();
+                    }
+                    
+                });
+    		} else {
+	        	game.setPlayer1Name(userText.getText().toString());
+	    		
+	        	intent.putExtra("GAME", game);
+				startActivity(intent);
+    		}
     	} else {
     		//game.setPlayer2Name(getString(R.string.hint_password));
     	}
@@ -140,5 +165,13 @@ public class MainActivity extends Activity {
         // Create the dialog box and show it
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+    
+    /**
+     * Handle a new user
+     * @param view
+     */
+    public void onNewUser(View view) {
+    	// TODO
     }
 }
