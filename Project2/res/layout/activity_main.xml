@@ -2,89 +2,95 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/sea_green"
     android:orientation="vertical"
     android:paddingLeft="20dp"
     android:paddingRight="20dp"
-    android:background="@color/sea_green"
     tools:context=".MainActivity" >
 
-        <TextView
-            android:id="@+id/textViewPlayers"
+    <TextView
+        android:id="@+id/textViewPlayers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/editUserName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:text="@string/text_start"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <LinearLayout
+        android:id="@+id/buttonLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" >
+
+        <Button
+            android:id="@+id/buttonStart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/editUserName"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="10dp"
-            android:text="@string/text_start"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:layout_weight="1"
+            android:background="@android:drawable/btn_default"
+            android:onClick="onStartGame"
+            android:text="@string/start_game" />
 
-        <LinearLayout
-            android:id="@+id/buttonLayout"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" >
-
-            <Button
-                android:id="@+id/buttonStart"
-                android:background="@android:drawable/btn_default"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="onStartGame"
-                android:text="@string/start_game" />
-
-            <Button
-                android:id="@+id/buttonHowToPlay"
-                android:background="@android:drawable/btn_default"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="onHowToPlay"
-                android:text="@string/how_to_play" />
-
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/planeImage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/textViewPlayers"
-            android:layout_alignLeft="@+id/buttonLayout"
-            android:layout_alignParentTop="true"
-            android:adjustViewBounds="true"
-            android:contentDescription="@string/plane_description"
-            android:padding="20dp"
-            android:src="@drawable/plane" />
-
-        <EditText
-            android:id="@+id/editUserName"
+        <Button
+            android:id="@+id/buttonHowToPlay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/buttonStart"
-            android:layout_alignRight="@+id/checkBoxRememberMe"
-            android:hint="@string/hint_username"
-            android:layout_above="@+id/editPassword"
-            android:ems="10" />
+            android:layout_weight="1"
+            android:background="@android:drawable/btn_default"
+            android:onClick="onHowToPlay"
+            android:text="@string/how_to_play" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/planeImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textViewPlayers"
+        android:layout_alignLeft="@+id/buttonLayout"
+        android:layout_alignParentTop="true"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/plane_description"
+        android:padding="20dp"
+        android:src="@drawable/plane" />
+
+    <EditText
+        android:id="@+id/editUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/passwordLayout"
+        android:layout_alignLeft="@+id/passwordLayout"
+        android:ems="10"
+        android:hint="@string/hint_username" />
+
+    <LinearLayout
+        android:id="@+id/passwordLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/buttonLayout"
+        android:layout_alignLeft="@+id/buttonStart" >
 
         <EditText
             android:id="@+id/editPassword"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/buttonLayout"
-            android:layout_alignLeft="@+id/buttonStart"
-            android:layout_toLeftOf="@+id/checkBoxRememberMe"
-            android:hint="@string/hint_password"
+            android:layout_weight="4"
             android:ems="10"
-            android:inputType="textPassword" />
+            android:hint="@string/hint_password"
+            android:inputType="textPassword" >
+
+            <requestFocus />
+        </EditText>
 
         <CheckBox
             android:id="@+id/checkBoxRememberMe"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="4"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/editPassword"
-            android:layout_alignRight="@+id/buttonLayout"
-            android:layout_alignParentRight="true"
             android:text="@string/rememberMe" />
+
+    </LinearLayout>
 
 </RelativeLayout>
