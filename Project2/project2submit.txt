@@ -52,7 +52,7 @@ Where in the code the passive connection timeout is set (provide a script name a
 
 Calls in the code to the server (provide a class name and function, or URL used for debugging):
 	Class: Cloud
-	Function: SendXmlToServer
+	Function: createUserXml
 
 
 
