@@ -9,25 +9,15 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlSerializer;
 
 import android.util.Xml;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class Cloud {
-    private static final String MAGIC = "NechAtHa6RuzeR8x";
-    private static final String USER = "";
-    private static final String PASSWORD = "";
-    private static final String ADDUSER_URL = "";
+    private static final String ADDUSER_URL = "https://www.cse.msu.edu/~siaudvyt/monopoly/new-user.php";
     private static final String LOGIN_URL = "https://www.cse.msu.edu/~siaudvyt/monopoly/login.php";
     private static final String UTF8 = "UTF-8";
     
@@ -78,8 +68,8 @@ public class Cloud {
             
             xml.startTag(null, "userinfo");
 
-            xml.attribute(null, "user", USER);
-            xml.attribute(null, "pw", PASSWORD);
+            xml.attribute(null, "user", name);
+            xml.attribute(null, "pw", pass);
             
             xml.endTag(null, "userinfo");
             
