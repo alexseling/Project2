@@ -123,7 +123,6 @@ public class Cloud {
             if (!parseUserResult(stream)) {
             	return false;
             }
-             
             
         } catch (MalformedURLException e) {
             return false;
