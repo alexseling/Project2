@@ -3,6 +3,7 @@ package edu.msu.monopoly.project2;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.KeyEvent;
@@ -29,11 +30,18 @@ public class MainActivity extends Activity {
 	 * holds whether or not the user wants to be remembered
 	 */
 	private boolean rememberMe = false;
+	
+	/**
+	 * the cloud
+	 */
+	private Cloud cloud = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+    	cloud = new Cloud();
 		
 		/*
          * Get some of the views we'll keep around
@@ -68,7 +76,6 @@ public class MainActivity extends Activity {
      */
     public void onStartGame(final View view) {
     	Game game = new Game();
-    	Cloud cloud = new Cloud();
     	
     	/*
     	 * grab whether or not the rememberMe box is checked
@@ -172,6 +179,34 @@ public class MainActivity extends Activity {
      * @param view
      */
     public void onNewUser(View view) {
-    	// TODO
+    	// The drawing is done
+        // Instantiate a dialog box builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+        
+        // Parameterize the builder
+        builder.setTitle(R.string.newUser);
+        
+        // Get the layout inflater
+        LayoutInflater inflater = this.getLayoutInflater();
+
+        // Inflate and set the layout for the dialog
+        // Pass null as the parent view because its going in the dialog layout
+        builder.setView(inflater.inflate(R.layout.dialog_newuser, null))
+        // Add action buttons
+           .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+               @Override
+               public void onClick(DialogInterface dialog, int id) {
+            	   EditText newUser = (EditText)findViewById(R.id.editNewUser);
+            	   EditText newPassword = (EditText)findViewById(R.id.editNewPassword);
+            	   EditText newPasswordConfirm = (EditText)findViewById(R.id.editNewPasswordConfirm);
+            	   
+            	   //if passwords equal..
+            	   cloud.addNewUser(newUser.getText().toString(), newPassword.getText().toString());
+               }
+           }); 
+        
+        // Create the dialog box and show it
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }

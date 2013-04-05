@@ -28,7 +28,7 @@ public class Cloud {
     private static final String USER = "";
     private static final String PASSWORD = "";
     private static final String ADDUSER_URL = "";
-    private static final String LOGIN_URL = "";
+    private static final String LOGIN_URL = "https://www.cse.msu.edu/~siaudvyt/monopoly/login.php";
     private static final String UTF8 = "UTF-8";
     
     

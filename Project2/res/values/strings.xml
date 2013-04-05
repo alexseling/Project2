@@ -41,11 +41,13 @@
     <string name="how_to_play">How To Play</string>
     <string name="hint_username">Username</string>
     <string name="hint_password">Password</string>
+    <string name="hint_confirmPassword">Confirm Password</string>
     <string name="waiting">Waiting for second player&#8230;</string>
     <string name="rememberMe">Remember Me</string>
     <string name="empty"></string>
     <string name="newUser">New User</string>
     <string name="login_fail">Failed to login</string>
+    <string name="login_info">Enter User Information</string>
     <string name="how_to_play_text">  \n Winning:\n\n
        
        The first player to 500 points wins. Points are awarded based on the time remaining on the clock.\n\n
