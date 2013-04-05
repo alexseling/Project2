@@ -1,0 +1,60 @@
+
+Project 2 Submission
+
+Group Name: Monopoly
+
+When you have completed the project, complete the following form and include it with your project. Include this file as a text file in the folder with your project when you turn it in. 
+
+For the Checkpoint, Describe a sequence of operations to create a new account and log onto the server:
+
+A functionality checklist will not be provided for the project. Treat this as you would a request from a client and identify what the client requires. 
+
+Checkpoint Instructions:
+
+	Create a new user using the create new user button. Passwords must match. OK to confirm.
+	Login using the login button. Valid username and password must be entered into the appropriate text boxes.
+
+Member 1: Justin Fila
+
+Responsiblity: The sequencing of the activities.
+
+
+
+Member 2: Alex Seling
+
+Responsiblity: Client-side communications.
+
+
+
+Member 3: Domas Siaudvytis
+
+Responsiblity: Server-side communications.
+
+
+
+Member 4 (if applicable): 
+
+Responsiblity:
+
+
+Provide instructions on how to reach the first editing activity if the login button is not yet functional.
+
+User account the server-side communications is running under: 
+	
+	siaudvyt
+
+Paths to all server-side scripts: (Such as https://www.cse.msu.edu/~carter/project2/login.php).
+
+	https://www.cse.msu.edu/~siaudvyt/monopoly/login.php
+	https://www.cse.msu.edu/~siaudvyt/monopoly/new-user.php
+
+Where in the code the passive connection timeout is set (provide a script name and line number):
+
+Calls in the code to the server (provide a class name and function, or URL used for debugging):
+	Class: Cloud
+	Function: SendXmlToServer
+
+
+
+
+
