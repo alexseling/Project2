@@ -30,18 +30,11 @@ public class MainActivity extends Activity {
 	 * holds whether or not the user wants to be remembered
 	 */
 	private boolean rememberMe = false;
-	
-	/**
-	 * the cloud
-	 */
-	private Cloud cloud = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
-    	cloud = new Cloud();
 		
 		/*
          * Get some of the views we'll keep around
@@ -75,7 +68,6 @@ public class MainActivity extends Activity {
      * @param view
      */
     public void onStartGame(final View view) {
-    	Game game = new Game();
     	
     	/*
     	 * grab whether or not the rememberMe box is checked
@@ -90,35 +82,46 @@ public class MainActivity extends Activity {
     	
     	// Added by Justin Fila
     	// Get the username and password
-    	EditText userText = (EditText)findViewById(R.id.editUserName);
-    	EditText passText = (EditText)findViewById(R.id.editPassword);
+    	final EditText userText = (EditText)findViewById(R.id.editUserName);
+    	final EditText passText = (EditText)findViewById(R.id.editPassword);
+    	final Intent intent = new Intent(this, WatingActivity.class);
     	
     	if(userText.length() != 0 && passText.length() != 0)
     	{
     		//game.setPlayer1Name(userText.getText().toString());
-    		Intent intent = new Intent(this, WatingActivity.class);
     		// game.setPlayer1Name...
     		
     		// check username and password...
-    		boolean validLogin = cloud.login(userText.getText().toString(), passText.getText().toString());
     		
-    		// if username and password is correct...
-    		if (!validLogin) {
-                // Error condition!
-                view.post(new Runnable() {
+            new Thread(new Runnable() {
+                
+                @Override
+                public void run() {
+                	Cloud c = new Cloud();
+                	boolean validLogin = c.login(userText.getText().toString(), passText.getText().toString());
+                    if(!validLogin) {
+                        // Create a toast on the view
+                        view.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                /*
+                                 * If we fail to save, display a toast 
+                                 */
+                                Toast.makeText(view.getContext(), R.string.login_fail, Toast.LENGTH_SHORT).show();
+                            }
+                        
+                        });
+                    } else {
+                		// if username and password is correct..
+                    	Game game = new Game();
+                    	game.setPlayer1Name(userText.getText().toString());
 
-                    @Override
-                    public void run() {
-                        Toast.makeText(view.getContext(), R.string.login_fail, Toast.LENGTH_SHORT).show();
+                    	intent.putExtra("GAME", game);
+                    	startActivity(intent);
                     }
-                    
-                });
-    		} else {
-	        	game.setPlayer1Name(userText.getText().toString());
-	    		
-	        	intent.putExtra("GAME", game);
-				startActivity(intent);
-    		}
+                }
+                
+            }).start();
     	} else {
     		//game.setPlayer2Name(getString(R.string.hint_password));
     	}
@@ -203,47 +206,57 @@ public class MainActivity extends Activity {
 	         	   final EditText newPassword = (EditText)((AlertDialog) dialog).findViewById(R.id.editNewPassword);
 	         	   final EditText newPasswordConfirm = (EditText)((AlertDialog) dialog).findViewById(R.id.editNewPasswordConfirm);
 	         	   
-            	   String newPasswordString = newPassword.getText().toString();
-            	   String newPasswordConfirmString = newPasswordConfirm.getText().toString();
-            	   
-            	   // check if the two passwords are equal
-            	   if (newPasswordString.equals(newPasswordConfirmString) ) {
-            		   // create a new user
-            		   boolean isValidUser = cloud.addNewUser(newUser.getText().toString(), newPassword.getText().toString());
-                     
-            		   //boolean isValidUser = false;
-            		   if (isValidUser) {
-                    	   // Success!
-	            		   view.post(new Runnable() {
-	
-	                           @Override
-	                           public void run() {
-	                               Toast.makeText(view.getContext(), R.string.newuser_success, Toast.LENGTH_SHORT).show();
-	                           }
-	                           
-	                       });
-                       } else {
-                    	   // Error condition!
-	            		   view.post(new Runnable() {
-	            				
-	                           @Override
-	                           public void run() {
-	                               Toast.makeText(view.getContext(), R.string.newuser_fail, Toast.LENGTH_SHORT).show();
-	                           }
-	                           
-	                       });
-                       }
-            	   } else {
-                       // Error condition!
-                       view.post(new Runnable() {
+            	   final String newPasswordString = newPassword.getText().toString();
+            	   final String newPasswordConfirmString = newPasswordConfirm.getText().toString();
+            	   //
+                   new Thread(new Runnable() {
+                       
+                       @Override
+                       public void run() {
+                    	   // check if the two passwords are equal
+                    	   if (newPasswordString.equals(newPasswordConfirmString) ) {
+                    		   // create a new user
+                    		   Cloud c = new Cloud();
+                    		   boolean isValidUser = c.addNewUser(newUser.getText().toString(), newPassword.getText().toString());
+                             
+                    		   //boolean isValidUser = false;
+                    		   if (isValidUser) {
+                            	   // Success!
+        	            		   view.post(new Runnable() {
+        	
+        	                           @Override
+        	                           public void run() {
+        	                               Toast.makeText(view.getContext(), R.string.newuser_success, Toast.LENGTH_SHORT).show();
+        	                           }
+        	                           
+        	                       });
+                               } else {
+                            	   // Error condition!
+        	            		   view.post(new Runnable() {
+        	            				
+        	                           @Override
+        	                           public void run() {
+        	                               Toast.makeText(view.getContext(), R.string.newuser_fail, Toast.LENGTH_SHORT).show();
+        	                           }
+        	                           
+        	                       });
+                               }
+                    	   } else {
+                               // Error condition!
+                               view.post(new Runnable() {
 
-                           @Override
-                           public void run() {
-                               Toast.makeText(view.getContext(), R.string.newuser_passfail, Toast.LENGTH_SHORT).show();
-                           }
-                           
-                       });
-            	   }
+                                   @Override
+                                   public void run() {
+                                       Toast.makeText(view.getContext(), R.string.newuser_passfail, Toast.LENGTH_SHORT).show();
+                                   }
+                                   
+                               });
+                    	   }
+                       }
+                       
+                   }).start();
+                   //
+            	   
                }
            }); 
         

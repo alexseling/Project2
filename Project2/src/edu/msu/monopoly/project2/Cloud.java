@@ -14,6 +14,7 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlSerializer;
 
+import android.os.NetworkOnMainThreadException;
 import android.util.Xml;
 
 public class Cloud {
@@ -127,6 +128,10 @@ public class Cloud {
         } catch (MalformedURLException e) {
             return false;
         } catch (IOException ex) {
+            return false;
+        } catch (SecurityException es) {
+            return false;
+        } catch (NetworkOnMainThreadException en) {
             return false;
         } finally {
             if(stream != null) {
