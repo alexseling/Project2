@@ -3,7 +3,6 @@ package edu.msu.monopoly.project2;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.KeyEvent;
@@ -22,6 +21,16 @@ public class MainActivity extends Activity {
 //	private EditText editTextPlayer2 = null;
 	
 	/**
+	 * string for saving checkbox state
+	 */
+	private static final String REMEMBER = "remember";
+
+	/**
+	 * string for saving password
+	 */
+	private static final String PASS = "password";
+
+	/**
 	 * The edit text for entering the password
 	 */
 	private EditText editTextPass = null;
@@ -32,8 +41,8 @@ public class MainActivity extends Activity {
 	private boolean rememberMe = false;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	protected void onCreate(Bundle bundle) {
+		super.onCreate(bundle);
 		setContentView(R.layout.activity_main);
 		
 		/*
@@ -41,6 +50,14 @@ public class MainActivity extends Activity {
          */
         //editTextPlayer2 = (EditText)findViewById(R.id.editTextPlayer2);
         editTextPass = (EditText)findViewById(R.id.editPassword);
+        
+        if (bundle != null) {
+        	editTextPass.setText(bundle.getString(PASS));
+        	rememberMe = bundle.getBoolean(REMEMBER);
+        	
+        	CheckBox checkbox = (CheckBox)findViewById(R.id.checkBoxRememberMe);
+        	checkbox.setChecked(rememberMe);
+        }
         
         /*
          * Change the Done button to Start Game
@@ -61,6 +78,18 @@ public class MainActivity extends Activity {
             }
         });
         
+	}
+
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onSaveInstanceState(android.os.Bundle)
+	 */
+	@Override
+	protected void onSaveInstanceState(Bundle bundle) {
+		// TODO Auto-generated method stub
+		super.onSaveInstanceState(bundle);
+		
+		bundle.putBoolean(REMEMBER, rememberMe);
+		bundle.putString(PASS, editTextPass.getText().toString());
 	}
 
 	/**

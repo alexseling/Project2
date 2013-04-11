@@ -14,4 +14,13 @@
         android:text="@string/waiting"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
+    <TextView
+        android:id="@+id/textDots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textWaiting"
+        android:layout_toRightOf="@+id/textWaiting"
+        android:text="@string/dots"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
 </RelativeLayout>

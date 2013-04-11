@@ -42,7 +42,8 @@
     <string name="hint_username">Username</string>
     <string name="hint_password">Password</string>
     <string name="hint_confirmPassword">Confirm Password</string>
-    <string name="waiting">Waiting for second player&#8230;</string>
+    <string name="waiting">Waiting for second player</string>
+    <string name="dots">&#8230;</string>
     <string name="rememberMe">Remember Me</string>
     <string name="empty"></string>
     <string name="newUser">New User</string>
