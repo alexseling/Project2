@@ -9,13 +9,23 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlSerializer;
 
+import edu.msu.cse.selingal.hattercloud.R;
+import edu.msu.cse.selingal.hattercloud.Cloud.Item;
+
 import android.os.NetworkOnMainThreadException;
 import android.util.Xml;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class Cloud {
     private static final String ADDUSER_URL = "https://www.cse.msu.edu/~siaudvyt/monopoly/new-user.php";
@@ -145,7 +155,7 @@ public class Cloud {
         return true;
     }
 
-    private InputStream getPartner() {
+    private InputStream getUsersCatalog() {
 		try {
 			URL url = new URL("");
 	    	HttpURLConnection conn = (HttpURLConnection) url.openConnection(); 
@@ -164,6 +174,11 @@ public class Cloud {
 			return null;
 		}
     }
+    
+    private void getGamesCatalog() {
+    	
+    }
+    
     private boolean saveGame(DrawingView view, String user, String password) {
         // Create an XML packet with the information about the current image
         XmlSerializer xml = Xml.newSerializer();
@@ -175,6 +190,9 @@ public class Cloud {
             xml.startDocument("UTF-8", true);
             
             xml.startTag(null, "game");
+
+            xml.attribute(null, "user", user);
+            xml.attribute(null, "pw", password);
             
             view.saveXml(xml);
             
@@ -210,6 +228,156 @@ public class Cloud {
 			return null;
 		}
     }
+//    /**
+//     * An adapter so that list boxes can display a list of filenames from 
+//     * the cloud server.
+//     */
+//    public static class CatalogAdapter extends BaseAdapter {
+//
+//    	/**
+//    	 * The items to display in the list box. Initially null.
+//    	 */
+//    	private ArrayList<Item> items = new ArrayList<Item>();
+//    	
+//        /**
+//         * Constructor
+//         */
+//        public CatalogAdapter(final View view) {
+//            // Create a thread to load the catalog
+//        	new Thread(new Runnable() {
+//
+//				@Override
+//				public void run() {
+//                    ArrayList<Item> newItems = getCatalog();
+//                    
+//                    if(newItems != null) {
+//                        items = newItems;
+//                        
+//                        view.post(new Runnable() {
+//    
+//                            @Override
+//                            public void run() {
+//                                // Tell the adapter the data set has been changed
+//                                notifyDataSetChanged();
+//                            }
+//                            
+//                        });
+//                    } else {
+//                        // Error condition
+//                        view.post(new Runnable() {
+//
+//                            @Override
+//                            public void run() {
+//                                Toast.makeText(view.getContext(), R.string.catalog_fail, Toast.LENGTH_SHORT).show();
+//                            }
+//                            
+//                        });
+//                    }
+//				}
+//        		
+//        	}).start();
+//        }
+//        
+//        public ArrayList<Item> getCatalog() {
+//            ArrayList<Item> newItems = new ArrayList<Item>();
+//            
+//            String query = CATALOG_URL + "?user=" + USER + "&magic=" + MAGIC + "&pw=" + PASSWORD;
+//            
+//            /**
+//             * Open a connection
+//             */
+//            InputStream stream = null;
+//            try {
+//            	URL url = new URL(query);
+//            	
+//            	HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+//            	int responseCode = conn.getResponseCode();
+//            	if (responseCode != HttpURLConnection.HTTP_OK){
+//            		return null;
+//            	}
+//            	
+//            	stream = conn.getInputStream();
+//            	
+//            	try {
+//            		XmlPullParser xml = Xml.newPullParser();
+//            		xml.setInput(stream, UTF8);
+//            		
+//            		xml.nextTag();
+//            		xml.require(XmlPullParser.START_TAG, null, "hatter");
+//            		
+//            		String status = xml.getAttributeValue(null, "status");
+//                    if(status.equals("no")) {
+//                        return null;
+//                    }
+//                    
+//                    while(xml.nextTag() == XmlPullParser.START_TAG) {
+//                        if(xml.getName().equals("hatting")) {
+//                            Item item = new Item();
+//                            item.name = xml.getAttributeValue(null, "name");
+//                            item.id = xml.getAttributeValue(null, "id");
+//                            newItems.add(item);
+//                        }
+//                        
+//                        skipToEndTag(xml);
+//                    }
+//                    
+//            	} catch(XmlPullParserException ex) {
+//            		return null;
+//            	} catch (IOException ex) {
+//            		return null;
+//            	} finally {
+//                    try {
+//                        stream.close();
+//                    } catch(IOException ex) {
+//                        
+//                    }
+//                }
+//            	
+//            	
+//            } catch (MalformedURLException e) {
+//            	return null;
+//            } catch (IOException ex) {
+//            	return null;
+//            }
+//            
+//            return newItems;
+//        }
+//        
+//		@Override
+//		public int getCount() {
+//			return items.size();
+//		}
+//
+//		@Override
+//		public Item getItem(int position) {
+//			return items.get(position);
+//		}
+//
+//		@Override
+//		public long getItemId(int position) {
+//			return position;
+//		}
+//
+//		@Override
+//		public View getView(int position, View view, ViewGroup parent) {
+//			if (view == null) {
+//				view = LayoutInflater.from(parent.getContext()).inflate(R.layout.catalog_item, parent, false);
+//			}
+//			
+//			TextView tv = (TextView)view.findViewById(R.id.textItem);
+//			tv.setText(items.get(position).name);
+//			
+//			return view;
+//		}
+//        
+//		public String getId(int position) {
+//			return items.get(position).id;
+//		}
+//		
+//		public String getName(int position) {
+//			return items.get(position).name;
+//		}
+//    }
     //    /**
 //     * Open a connection to a hatting in the cloud.
 //     * @param id id for the hatting

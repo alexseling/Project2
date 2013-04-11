@@ -456,7 +456,7 @@ public class DrawingView extends View {
 		Parcel p = Parcel.obtain();
 		p.writeSerializable(picture);
         xml.startTag(null, "picture");
-        xml.attribute(null, "value", p.marshall().toString());
+        xml.attribute(null, "drawing", p.marshall().toString());
         xml.endTag(null,  "picture");
 	}
 
