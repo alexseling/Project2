@@ -175,9 +175,6 @@ public class Cloud {
             xml.startDocument("UTF-8", true);
             
             xml.startTag(null, "game");
-
-            xml.attribute(null, "user", user);
-            xml.attribute(null, "pw", password);
             
             view.saveXml(xml);
             
