@@ -4,14 +4,15 @@
     android:layout_height="match_parent" >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/textItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:gravity="center"
+        android:gravity="center_vertical"
         android:paddingBottom="10dp"
+        android:paddingLeft="5dp"
         android:paddingTop="10dp"
         android:text="Large Text"
         android:textAppearance="?android:attr/textAppearanceLarge" />
