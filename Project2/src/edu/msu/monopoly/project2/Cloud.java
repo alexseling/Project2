@@ -31,7 +31,7 @@ public class Cloud {
      * @throws XmlPullParserException
      */
     public static void skipToEndTag(XmlPullParser xml) 
-            throws IOException, XmlPullParserException {
+        throws IOException, XmlPullParserException {
         int tag;
         do
         {
@@ -144,7 +144,76 @@ public class Cloud {
         
         return true;
     }
-//    /**
+
+    private InputStream getPartner() {
+		try {
+			URL url = new URL("");
+	    	HttpURLConnection conn = (HttpURLConnection) url.openConnection(); 
+	    	InputStream stream =conn.getInputStream();
+	    	
+	    	int responseCode = conn.getResponseCode();
+	    	
+            if(responseCode != HttpURLConnection.HTTP_OK) {
+                return null;
+            }
+	    	
+	    	return stream;
+		} catch (MalformedURLException e) {
+			return null;
+		} catch (IOException e) {
+			return null;
+		}
+    }
+    private boolean saveGame(DrawingView view, String user, String password) {
+        // Create an XML packet with the information about the current image
+        XmlSerializer xml = Xml.newSerializer();
+        StringWriter writer = new StringWriter();
+        
+        try {
+            xml.setOutput(writer);
+            
+            xml.startDocument("UTF-8", true);
+            
+            xml.startTag(null, "game");
+
+            xml.attribute(null, "user", user);
+            xml.attribute(null, "pw", password);
+            
+            view.saveXml(xml);
+            
+            xml.endTag(null, "game");
+            
+            xml.endDocument();
+
+        } catch (IOException e) {
+            // This won't occur when writing to a string
+            return false;
+        }
+        
+        final String xmlStr = writer.toString();
+    	return false;
+    }
+    
+    private InputStream loadGame() {
+		try {
+			URL url = new URL("");
+	    	HttpURLConnection conn = (HttpURLConnection) url.openConnection(); 
+	    	InputStream stream =conn.getInputStream();
+
+	    	int responseCode = conn.getResponseCode();
+	    	
+            if(responseCode != HttpURLConnection.HTTP_OK) {
+                return null;
+            }
+	    	
+	    	return stream;
+		} catch (MalformedURLException e) {
+			return null;
+		} catch (IOException e) {
+			return null;
+		}
+    }
+    //    /**
 //     * Open a connection to a hatting in the cloud.
 //     * @param id id for the hatting
 //     * @return reference to an input stream or null if this fails

@@ -1,8 +1,13 @@
 package edu.msu.monopoly.project2;
 
+import java.io.IOException;
+
+import org.xmlpull.v1.XmlSerializer;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -445,6 +450,14 @@ public class DrawingView extends View {
 
 	public float getEraserWidth() {
 		return eraserWidth;
+	}
+	
+	public void saveXml(XmlSerializer xml) throws IOException {
+		Parcel p = Parcel.obtain();
+		p.writeSerializable(picture);
+        xml.startTag(null, "picture");
+        xml.attribute(null, "PICTURE", p.marshall().toString());
+        xml.endTag(null,  "picture");
 	}
 
 	public void setEraserWidth(float eraserWidth) {
