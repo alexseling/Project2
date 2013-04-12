@@ -52,6 +52,7 @@
     <string name="newuser_passfail">Must match passwords</string>
     <string name="login_fail">Failed to login</string>
     <string name="login_info">Enter User Information</string>
+    <string name="waiting_to_guess">Please wait while other\nplayer guesses and draws</string>
     <string name="how_to_play_text">  \n Winning:\n\n
        
        The first player to 500 points wins. Points are awarded based on the time remaining on the clock.\n\n
@@ -68,5 +69,6 @@
     <string name="new_game">New game</string>
     <string name="not_available">N/A</string>
     <string name="title_activity_wating">WatingActivity</string>
+    <string name="title_activity_waiting_to_guess">WaitingToGuess</string>
 
 </resources>

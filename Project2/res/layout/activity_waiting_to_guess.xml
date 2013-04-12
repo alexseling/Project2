@@ -1,0 +1,26 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/sea_green"
+    tools:context=".WaitingToGuessActivity" >
+
+    <TextView
+        android:id="@+id/textWaitingToGuess"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:text="@string/waiting_to_guess"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/textDots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textWaitingToGuess"
+        android:layout_toRightOf="@+id/textWaitingToGuess"
+        android:text="@string/dots"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+</RelativeLayout>

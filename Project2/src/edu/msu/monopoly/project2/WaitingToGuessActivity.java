@@ -7,12 +7,12 @@ import android.content.Intent;
 import android.view.Menu;
 import android.widget.TextView;
 
-public class WatingActivity extends Activity {
-	
+public class WaitingToGuessActivity extends Activity {
+
 	/**
 	 * the game
 	 */
-	Game game;
+	//Game game;
     
     /**
      * handler that posts at regular intervals
@@ -31,6 +31,7 @@ public class WatingActivity extends Activity {
     //tells handler to send a message
     private Runnable mUpdateTimeTask = new Runnable() {
 
+    	// will run every second. Check if other player is finished here.
          public void run() {
              //final long start = mStartTime;
         	 
@@ -62,10 +63,10 @@ public class WatingActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
-		setContentView(R.layout.activity_wating);
+		setContentView(R.layout.activity_waiting_to_guess);
 		
-		Intent intent = getIntent();
-		game = (Game)intent.getSerializableExtra("GAME");
+		//Intent intent = getIntent();
+		//game = (Game)intent.getSerializableExtra("GAME");
 		
 		dots = (TextView)findViewById(R.id.textDots);
 		
@@ -117,5 +118,4 @@ public class WatingActivity extends Activity {
 		
 		mHandler.removeCallbacks(mUpdateTimeTask);
 	}
-
 }
