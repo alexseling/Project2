@@ -35,6 +35,8 @@ public class Game implements Serializable {
 	
 	private String category = "";
 	
+	private String password = "";
+	
 	private Random randomNumberGenerator = new Random();
 	
 	private ArrayList<String> categories = new ArrayList<String>();
@@ -224,5 +226,13 @@ public class Game implements Serializable {
 			player1DisplayName = "-->" + player1Name;
 			player2DisplayName = player2Name;
 		}
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 }

@@ -4,10 +4,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.widget.TextView;
 
-public class WatingActivity extends Activity {
+public class WatingActivity extends FragmentActivity {
 	
 	/**
 	 * the game
@@ -71,6 +72,10 @@ public class WatingActivity extends Activity {
 		
 		// start the timer to pull data from server
 		onStartTimer();
+		
+		LoadDlg dlg2 = new LoadDlg();
+		dlg2.setUsernameAndPassword(game.getPlayer1Name(), game.getPassword());
+        dlg2.show(getSupportFragmentManager(), "load");
 		
 		// get the second player...
 //		game.setPlayer2Name(p2Text.getText().toString());

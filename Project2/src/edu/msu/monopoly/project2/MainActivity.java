@@ -144,6 +144,7 @@ public class MainActivity extends Activity {
                 		// if username and password is correct..
                     	Game game = new Game();
                     	game.setPlayer1Name(userText.getText().toString());
+                    	game.setPassword(passText.getText().toString());
 
                     	intent.putExtra("GAME", game);
                     	startActivity(intent);

@@ -1,7 +1,9 @@
 package edu.msu.monopoly.project2;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
@@ -16,6 +18,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlSerializer;
 
 import android.os.NetworkOnMainThreadException;
+import android.util.Log;
 import android.util.Xml;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,8 +30,17 @@ import android.widget.Toast;
 public class Cloud {
     private static final String ADDUSER_URL = "https://www.cse.msu.edu/~siaudvyt/monopoly/new-user.php";
     private static final String LOGIN_URL = "https://www.cse.msu.edu/~siaudvyt/monopoly/login.php";
+    private static final String CATALOG_URL = "https://www.cse.msu.edu/~siaudvyt/monopoly/load.php";
     private static final String UTF8 = "UTF-8";
     
+    /**
+     * Nested class to store one catalog row
+     */
+    private static class Item {
+        public String name = "";
+        public String id = "";
+        public String type = "";
+    }
     
     /**
      * Skip the XML parser to the end tag for whatever 
@@ -125,6 +137,12 @@ public class Cloud {
                 return false;
             } 
             
+            /*BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                Log.i("userinfo", line);
+            }*/
+            
             stream = conn.getInputStream();
             
             if (!parseUserResult(stream)) {
@@ -152,28 +170,216 @@ public class Cloud {
         return true;
     }
 
-    private InputStream getUsersCatalog() {
-		try {
-			URL url = new URL("");
-	    	HttpURLConnection conn = (HttpURLConnection) url.openConnection(); 
-	    	InputStream stream =conn.getInputStream();
-	    	
-	    	int responseCode = conn.getResponseCode();
-	    	
-            if(responseCode != HttpURLConnection.HTTP_OK) {
+    
+    public static class CatalogAdapter extends BaseAdapter  {
+    	
+    	/**
+    	 * The items to display in the list box. Initially null.
+    	 */
+    	private ArrayList<Item> items = new ArrayList<Item>();
+    	
+        /**
+         * Constructor
+         */
+        public CatalogAdapter(final View view, final String username, final String password) {
+            // Create a thread to load the catalog
+        	new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+                    ArrayList<Item> newItems = getCatalog(username, password);
+                    
+                    if(newItems != null) {
+                        items = newItems;
+                        
+                        view.post(new Runnable() {
+    
+                            @Override
+                            public void run() {
+                                // Tell the adapter the data set has been changed
+                                notifyDataSetChanged();
+                            }
+                            
+                        });
+                    } else {
+                        // Error condition
+                        view.post(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                Toast.makeText(view.getContext(), "Failed to get catalog", Toast.LENGTH_SHORT).show();
+                            }
+                            
+                        });
+                    }
+				}
+        		
+        	}).start();
+        }
+        
+        public ArrayList<Item> getCatalog(String username, String password) {
+            ArrayList<Item> newItems = new ArrayList<Item>();
+            
+            String query = CATALOG_URL;
+            // Create an XML packet with the information about the current image
+            XmlSerializer xmlOut = Xml.newSerializer();
+            StringWriter writer = new StringWriter();
+            
+            try {
+                xmlOut.setOutput(writer);
+                
+                xmlOut.startDocument("UTF-8", true);
+                
+                xmlOut.startTag(null, "userinfo");
+
+                xmlOut.attribute(null, "user", username);
+                xmlOut.attribute(null, "pw", password);
+                
+                xmlOut.endTag(null, "userinfo");
+                
+                xmlOut.endDocument();
+
+            } catch (IOException e) {
+                // This won't occur when writing to a string
                 return null;
             }
-	    	
-	    	return stream;
-		} catch (MalformedURLException e) {
-			return null;
-		} catch (IOException e) {
-			return null;
+            
+            final String xmlStr = writer.toString();
+            
+            /*
+             * Convert the XML into HTTP POST data
+             */
+            String postDataStr;
+            try {
+                postDataStr = "xml=" + URLEncoder.encode(xmlStr, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+            	return null;
+            }
+            
+            /*
+             * Send the data to the server
+             */
+            byte[] postData = postDataStr.getBytes();
+            
+            /**
+             * Open a connection
+             */
+            InputStream stream = null;
+            try {
+            	URL url = new URL(query);
+            	
+            	HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            	
+                conn.setDoOutput(true);
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Content-Length", Integer.toString(postData.length));
+                conn.setUseCaches(false);
+
+                OutputStream out = conn.getOutputStream();
+                out.write(postData);
+                out.close();
+                
+            	int responseCode = conn.getResponseCode();
+            	if (responseCode != HttpURLConnection.HTTP_OK){
+            		return null;
+            	}
+            	
+            	stream = conn.getInputStream();
+            	
+            	try {
+            		XmlPullParser xml = Xml.newPullParser();
+            		xml.setInput(stream, UTF8);
+            		
+            		xml.nextTag();
+            		xml.require(XmlPullParser.START_TAG, null, "userinfo");
+            		
+            		String status = xml.getAttributeValue(null, "status");
+                    if(status.equals("no")) {
+                        return null;
+                    }
+                    
+                    while(xml.nextTag() == XmlPullParser.START_TAG) {
+                    	Log.i("attribute", xml.getName());
+                        if(xml.getName().equals("user")) {
+                            Item item = new Item();
+                            item.name = xml.getAttributeValue(null, "name");
+                            item.id = xml.getAttributeValue(null, "id");
+                            item.type="user";
+                            newItems.add(item);
+                        }
+                        if(xml.getName().equals("game")) {
+                            Item item = new Item();
+                            item.name = xml.getAttributeValue(null, "name");
+                            item.id = xml.getAttributeValue(null, "id");
+                            item.type="game";
+                            newItems.add(item);
+                        }
+                        
+                        if (!xml.getName().equals("users")) {
+                        	skipToEndTag(xml);
+                        }
+                    }
+                    
+            	} catch(XmlPullParserException ex) {
+            		return null;
+            	} catch (IOException ex) {
+            		return null;
+            	} finally {
+                    try {
+                        stream.close();
+                    } catch(IOException ex) {
+                        
+                    }
+                }
+            	
+            	
+            } catch (MalformedURLException e) {
+            	return null;
+            } catch (IOException ex) {
+            	return null;
+            }
+            
+            return newItems;
+        }
+        
+		@Override
+		public int getCount() {
+			return items.size();
 		}
-    }
-    
-    private void getGamesCatalog() {
-    	
+
+		@Override
+		public Item getItem(int position) {
+			return items.get(position);
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return position;
+		}
+
+		@Override
+		public View getView(int position, View view, ViewGroup parent) {
+			if (view == null) {
+				view = LayoutInflater.from(parent.getContext()).inflate(R.layout.catalog_item, parent, false);
+			}
+			
+			TextView tv = (TextView)view.findViewById(R.id.textItem);
+			tv.setText(items.get(position).name);
+			
+			return view;
+		}
+        
+		public String getId(int position) {
+			return items.get(position).id;
+		}
+		
+		public String getName(int position) {
+			return items.get(position).name;
+		}
+		
+		public String getType(int position) {
+			return items.get(position).type;
+		}
     }
     
     private boolean saveGame(DrawingView view, String user, String password) {
