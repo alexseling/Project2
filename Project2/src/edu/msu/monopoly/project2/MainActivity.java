@@ -39,6 +39,11 @@ public class MainActivity extends Activity {
 	 * holds whether or not the user wants to be remembered
 	 */
 	private boolean rememberMe = false;
+		
+	/**
+	 * reference to the sequencer class
+	 */
+	Sequencer sequencer = Sequencer.get();
 
 	@Override
 	protected void onCreate(Bundle bundle) {
@@ -113,7 +118,7 @@ public class MainActivity extends Activity {
     	// Get the username and password
     	final EditText userText = (EditText)findViewById(R.id.editUserName);
     	final EditText passText = (EditText)findViewById(R.id.editPassword);
-    	final Intent intent = new Intent(this, WatingActivity.class);
+    	//final Intent intent = new Intent(this, WatingActivity.class);
     	
     	if(userText.length() != 0 && passText.length() != 0)
     	{
@@ -146,8 +151,9 @@ public class MainActivity extends Activity {
                     	game.setPlayer1Name(userText.getText().toString());
                     	game.setPassword(passText.getText().toString());
 
-                    	intent.putExtra("GAME", game);
-                    	startActivity(intent);
+                    	setActivityWaiting(game);
+                    	//intent.putExtra("GAME", game);
+                    	//startActivity(intent);
                     }
                 }
                 
@@ -293,5 +299,9 @@ public class MainActivity extends Activity {
         // Create the dialog box and show it
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+    
+    private void setActivityWaiting(Game game) {
+    	sequencer.setActivityWaiting(game, this);
     }
 }
