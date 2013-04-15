@@ -30,7 +30,7 @@ public class WatingActivity extends FragmentActivity {
     //private long mStartTime = 0;
     
     //tells handler to send a message
-    private Runnable mUpdateTimeTask = new Runnable() {
+    /*private Runnable mUpdateTimeTask = new Runnable() {
 
          public void run() {
              //final long start = mStartTime;
@@ -49,16 +49,16 @@ public class WatingActivity extends FragmentActivity {
         	 
              mHandler.postDelayed(this, 1000);
          }
-    };
+    };*/
     
     /**
      * Start the timer
      */
-    public void onStartTimer() {
+    /*public void onStartTimer() {
         //mStartTime = System.currentTimeMillis();
         mHandler.removeCallbacks(mUpdateTimeTask);
         mHandler.postDelayed(mUpdateTimeTask, 0);
-    }
+    }*/
 
 	@Override
 	protected void onCreate(Bundle bundle) {
@@ -71,7 +71,7 @@ public class WatingActivity extends FragmentActivity {
 		dots = (TextView)findViewById(R.id.textDots);
 		
 		// start the timer to pull data from server
-		onStartTimer();
+		//onStartTimer();
 		
 		LoadDlg dlg2 = new LoadDlg();
 		dlg2.setUsernameAndPassword(game.getPlayer1Name(), game.getPassword());
@@ -97,7 +97,7 @@ public class WatingActivity extends FragmentActivity {
 		// TODO Auto-generated method stub
 		super.onSaveInstanceState(outState);
 		
-		mHandler.removeCallbacks(mUpdateTimeTask);
+		//mHandler.removeCallbacks(mUpdateTimeTask);
 	}
 
 
@@ -109,7 +109,7 @@ public class WatingActivity extends FragmentActivity {
 		// TODO Auto-generated method stub
 		super.onResume();
 		
-		onStartTimer();
+		//onStartTimer();
 	}
 
 	/* (non-Javadoc)
@@ -120,7 +120,7 @@ public class WatingActivity extends FragmentActivity {
 		// TODO Auto-generated method stub
 		super.onBackPressed();
 		
-		mHandler.removeCallbacks(mUpdateTimeTask);
+		//mHandler.removeCallbacks(mUpdateTimeTask);
 	}
 
 }

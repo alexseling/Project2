@@ -279,6 +279,12 @@ public class Cloud {
                 out.write(postData);
                 out.close();
                 
+                /*BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    Log.i("userinfo", line);
+                }*/
+                
             	int responseCode = conn.getResponseCode();
             	if (responseCode != HttpURLConnection.HTTP_OK){
             		return null;
@@ -307,18 +313,27 @@ public class Cloud {
                             item.type="user";
                             newItems.add(item);
                         }
-                        if(xml.getName().equals("game")) {
-                            Item item = new Item();
-                            item.name = xml.getAttributeValue(null, "name");
-                            item.id = xml.getAttributeValue(null, "id");
-                            item.type="game";
-                            newItems.add(item);
-                        }
                         
                         if (!xml.getName().equals("users")) {
                         	skipToEndTag(xml);
                         }
                     }
+                    xml.nextTag();
+                    while(xml.nextTag() == XmlPullParser.START_TAG) {
+                        if(xml.getName().equals("game")) {
+                            Item item = new Item();
+                            item.name = "GAME - " + xml.getAttributeValue(null, "p2");
+                            item.id = xml.getAttributeValue(null, "id");
+                            item.type="game";
+                            newItems.add(item);
+                        }
+                        
+                        if (!xml.getName().equals("games")) {
+                        	Log.i("attribute", xml.getName());
+                        	skipToEndTag(xml);
+                        }
+                    }
+
                     
             	} catch(XmlPullParserException ex) {
             		return null;
@@ -382,7 +397,7 @@ public class Cloud {
 		}
     }
     
-    private boolean saveGame(DrawingView view, String user, String password) {
+    public boolean saveGame(DrawingView view, String user, String password) {
         // Create an XML packet with the information about the current image
         XmlSerializer xml = Xml.newSerializer();
         StringWriter writer = new StringWriter();
@@ -412,7 +427,7 @@ public class Cloud {
     	return false;
     }
     
-    private InputStream loadGame() {
+    public InputStream loadGame(String catId, String type) {
 		try {
 			URL url = new URL("");
 	    	HttpURLConnection conn = (HttpURLConnection) url.openConnection(); 

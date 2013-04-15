@@ -2,6 +2,7 @@ package edu.msu.monopoly.project2;
 
 import java.io.IOException;
 
+import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlSerializer;
 
 import android.content.Context;
@@ -458,6 +459,10 @@ public class DrawingView extends View {
         xml.startTag(null, "picture");
         xml.attribute(null, "drawing", p.marshall().toString());
         xml.endTag(null,  "picture");
+	}
+	
+	public void loadXml (XmlPullParser xml) throws IOException {
+		
 	}
 
 	public void setEraserWidth(float eraserWidth) {
