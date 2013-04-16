@@ -2,7 +2,15 @@ package edu.msu.monopoly.project2;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.ArrayList;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlSerializer;
+
+import android.util.Xml;
 
 public class Picture implements Serializable {
 
@@ -97,6 +105,59 @@ public class Picture implements Serializable {
 
 	public float getOffsetX() {
 		return offsetX;
+	}
+	
+	public String getXml() {
+        XmlSerializer xml = Xml.newSerializer();
+        StringWriter writer = new StringWriter();
+        try {
+            xml.setOutput(writer);
+            
+            xml.startTag(null, "picture");
+
+            xml.attribute(null, "angle", Float.toString(angle));
+            xml.attribute(null, "scale", Float.toString(scale));
+            xml.attribute(null, "offsetX", Float.toString(offsetX));
+            xml.attribute(null, "offsetY", Float.toString(offsetY));
+            
+            for (int i = 0; i < drawings.size(); i++) {
+            	drawings.get(i).addXml(xml);
+            }
+            xml.endTag(null, "picture");
+            
+		} catch (IOException ex){
+			
+		}
+        return writer.toString();
+        
+	}
+	
+	public void loadXml(String xmlStr) {
+		try {
+			XmlPullParser xml = Xml.newPullParser();
+			xml.setInput(new StringReader(xmlStr));
+			
+			xml.require(XmlPullParser.START_TAG, null, "picture");
+			
+			angle = Float.parseFloat(xml.getAttributeValue(null, "angle"));
+			scale = Float.parseFloat(xml.getAttributeValue(null, "scale"));
+			offsetX = Float.parseFloat(xml.getAttributeValue(null, "offsetX"));
+			offsetY = Float.parseFloat(xml.getAttributeValue(null, "offsetY"));
+            
+            while(xml.nextTag() == XmlPullParser.START_TAG) {
+                if(xml.getName().equals("drawing")) {
+                    Drawing d = new Drawing();
+                    d.loadXml(xml);
+                    drawings.add(d);
+                }
+                Cloud.skipToEndTag(xml);
+            }  
+			
+		} catch (XmlPullParserException e) {
+			
+		} catch (IOException e) {
+			
+		}
 	}
 	
 }

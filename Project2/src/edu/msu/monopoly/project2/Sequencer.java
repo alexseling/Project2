@@ -1,12 +1,7 @@
 package edu.msu.monopoly.project2;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.Handler;
 
 public class Sequencer {
 	
@@ -31,6 +26,7 @@ public class Sequencer {
 		intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 		intent.putExtra("GAME", game);
 		activity.startActivity(intent);
+		activity.finish();
 	}
 	
 	/**
@@ -46,6 +42,7 @@ public class Sequencer {
 		intent.putExtra("PICTURE", pictureFromServer);
 		intent.putExtra("GAME", game);
 		activity.startActivity(intent);
+		activity.finish();
 	}
 	
 	/**
@@ -70,6 +67,7 @@ public class Sequencer {
 		intent.putExtra("GAME", game);
 		intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 		activity.startActivity(intent);
+		activity.finish();
 	}
 	
 	/**
@@ -81,6 +79,7 @@ public class Sequencer {
     	Intent intent = new Intent(activity, FinalActivity.class);
     	intent.putExtra("GAME", game);
 		activity.startActivity(intent);
+		activity.finish();
 	}
 	
 	/**
@@ -91,6 +90,7 @@ public class Sequencer {
     	Intent intent = new Intent(activity, MainActivity.class);
     	intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		activity.startActivity(intent);
+		activity.finish();
 	}
 	
 	/**

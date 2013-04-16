@@ -41,20 +41,35 @@ Provide instructions on how to reach the first editing activity if the login but
 
 User account the server-side communications is running under: 
 	
-	siaudvyt
+	Username: siaudvyt
+	Password: password
 
 Paths to all server-side scripts: (Such as https://www.cse.msu.edu/~carter/project2/login.php).
 
-	https://www.cse.msu.edu/~siaudvyt/monopoly/login.php
-	https://www.cse.msu.edu/~siaudvyt/monopoly/new-user.php
+    https://www.cse.msu.edu/~siaudvyt/monopoly/new-user.php
+    https://www.cse.msu.edu/~siaudvyt/monopoly/login.php
+    https://www.cse.msu.edu/~siaudvyt/monopoly/logout.php
+    https://www.cse.msu.edu/~siaudvyt/monopoly/load.php
+    https://www.cse.msu.edu/~siaudvyt/monopoly/getGame.php
+    https://www.cse.msu.edu/~siaudvyt/monopoly/update.php
 
 Where in the code the passive connection timeout is set (provide a script name and line number):
-
+	Not implemented
 Calls in the code to the server (provide a class name and function, or URL used for debugging):
 	Class: Cloud
-	Function: createUserXml
+		Function: createUserXml
+		Function: loadGame
+		Class: CatalogAdapter
+		Function: saveGame
 
-
+Notes:
+	-Transitioning between activities is only partially working. A user can correctly signal another user that they have started
+		a game, but then nothing further works.
+	-Passive timeout is not implemented.
+	-Loss of server connection is not handled
+	-It was intended that each user be allowed one active game. Deactivating and deleting games is not implemented. This means
+		that when a user that has already started a game logs in, he is automatically transferred to the 'WaitingForGuess' 
+		activity.
 
 
 

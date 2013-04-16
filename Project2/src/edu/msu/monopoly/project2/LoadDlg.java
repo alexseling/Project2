@@ -14,9 +14,26 @@ public class LoadDlg extends DialogFragment {
 
 	private static final String USER = "USER";
 	private static final String PASS = "PASS";
+	private static final String GAME = "GAME";
 	private String username;
 	private String password;
+	private Game game;
 	
+	
+	/**
+	 * @return the game
+	 */
+	public Game getGame() {
+		return game;
+	}
+
+	/**
+	 * @param game the game to set
+	 */
+	public void setGame(Game game) {
+		this.game = game;
+	}
+
 	/**
      * Create the dialog box
      */
@@ -26,11 +43,12 @@ public class LoadDlg extends DialogFragment {
     	if(bundle != null) {
     		username = bundle.getString(USER);
     		password = bundle.getString(PASS);
+    		game = (Game)bundle.getSerializable(GAME);
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         // Set the title
-        builder.setTitle("Select a user or game");
+        builder.setTitle("Select a partner");
         
         // Get the layout inflater
         LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -61,16 +79,25 @@ public class LoadDlg extends DialogFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,
                     long id) {
-                // Get the id of the one we want to load
-                String catId = adapter.getId(position);
-                String type = adapter.getType(position);
+                String player = adapter.getName(position);
                 
+                // Set up the game
+                game.setPlayer2Name(player);
+                game.randomlySelectCategory();
                 // Dismiss the dialog box
                 dlg.dismiss();
                 
-                LoadingDlg loadDlg = new LoadingDlg();
-                loadDlg.setCatId(catId);
-                loadDlg.show(getActivity().getSupportFragmentManager(), "loading");
+                new Thread(new Runnable() {
+                    
+                    @Override
+                    public void run() {
+                		Cloud c = new Cloud();
+                		c.saveGame(game, "1", null);
+                    }
+                    
+                }).start();
+                
+        		Sequencer.get().setActivityEdit(game, getActivity());
             }
             
         });
@@ -92,5 +119,6 @@ public class LoadDlg extends DialogFragment {
         
         bundle.putString(USER, username);
         bundle.putString(PASS, password);
+        bundle.putSerializable(GAME, game);
     }
 }

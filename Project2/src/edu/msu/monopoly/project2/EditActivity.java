@@ -1,5 +1,9 @@
 package edu.msu.monopoly.project2;
 
+import java.io.IOException;
+
+import org.xmlpull.v1.XmlPullParserException;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -109,6 +113,16 @@ public class EditActivity extends Activity {
 		Intent intent = getIntent();
 		game = (Game)intent.getSerializableExtra(GAME);
 		
+        new Thread(new Runnable() {
+            
+            @Override
+            public void run() {
+        		Cloud c = new Cloud();
+        		game.getInfoFromInputStream(c.loadGame(game.getPlayer1Name(), game.getPassword()));
+            }
+            
+        }).start();
+ 	   
 		/*
          * Get some of the views we'll keep around
          */
@@ -133,7 +147,7 @@ public class EditActivity extends Activity {
 		p2Score.setText(Integer.toString(game.getPlayer2Score()));
 		category.setText(game.getCategory());
 		
-		/*
+		/*	
 		 * Listeners for the sliders
 		 */
 		pencilSeekBar.setOnSeekBarChangeListener(new SeekBarListener() {
@@ -264,16 +278,42 @@ public class EditActivity extends Activity {
     
     /**
      * Handle an Ok button press
+     * @throws IOException 
+     * @throws XmlPullParserException 
      */
-    public void onOk() {
+    public void onOk(){
     	
     	if (game.checkAnswerAndTip()) {
-    		game.switchRoles();
-        	Intent intent = new Intent(this, GuessActivity.class);
-        	intent.putExtra(GAME, game);
-        	drawingView.putDrawings(intent);
-    		startActivity(intent);
-        	finish();
+    		game.switchRoles();		
+            new Thread(new Runnable() {
+                
+                @Override
+                public void run() {
+            		Cloud c = new Cloud();
+            		c.saveGame(game, "0", drawingView);
+                }
+                
+            }).start();
+    		
+    		/*try {XmlSerializer xml = Xml.newSerializer();
+            StringWriter writer = new StringWriter();
+            xml.setOutput(writer);
+            xml.startDocument("UTF-8", true);
+            xml.startTag(null, "game");
+            drawingView.saveXml(xml);
+            xml.endTag(null, "game");
+            xml.endDocument();
+            String xmlStr = writer.toString();
+			XmlPullParser xmlp = Xml.newPullParser();
+			xmlp.setInput(new StringReader(xmlStr));
+			drawingView.loadXml(xmlp);
+    		} catch(IOException e) {
+    			
+    		} catch (XmlPullParserException e) {
+				
+			}*/
+            
+    		Sequencer.get().setActivityWaitingForGuess(game, this);
     	} else {
 			Toast.makeText(this,"Answer and tip required", Toast.LENGTH_LONG).show();
 		}
@@ -292,6 +332,16 @@ public class EditActivity extends Activity {
 	        alertDialogBuilder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 	               @Override
 	               public void onClick(DialogInterface dialog, int id) {
+
+	                   new Thread(new Runnable() {
+	                       
+	                       @Override
+	                       public void run() {
+	                   		Cloud c = new Cloud();
+	                   		c.logout(game.getPlayer1Name(), game.getPassword());
+	                       }
+	                       
+	                   }).start();
 	            	   finish();
 	               }
 	        })
@@ -334,5 +384,23 @@ public class EditActivity extends Activity {
     public void loadUi(Bundle bundle) {
     	game = (Game)bundle.getSerializable(GAME);
     }
-    
+
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onStop()
+	 */
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		
+        new Thread(new Runnable() {
+            
+            @Override
+            public void run() {
+        		Cloud c = new Cloud();
+        		c.logout(game.getPlayer1Name(), game.getPassword());
+            }
+            
+        }).start();
+	}
 }

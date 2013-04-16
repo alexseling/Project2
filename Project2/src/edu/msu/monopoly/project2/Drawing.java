@@ -1,7 +1,13 @@
 package edu.msu.monopoly.project2;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlSerializer;
+
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
@@ -100,6 +106,40 @@ public class Drawing implements Serializable {
 		this.linePaint = linePaint;
 		params.color = linePaint.getColor();
 		params.width = linePaint.getStrokeWidth();
+	}
+	
+	public void addXml(XmlSerializer xml) {
+        
+		try {
+	        xml.startTag(null, "drawing");
+	
+	        xml.attribute(null, "color", Integer.toString(params.color));
+	        xml.attribute(null, "width", Float.toString(params.width));
+	        
+	        for (int i = 0; i < points.size(); i++) {
+		        xml.startTag(null, "point");
+		        xml.attribute(null, "x", Float.toString(points.get(i).x));
+		        xml.attribute(null, "y", Float.toString(points.get(i).y));
+		        xml.endTag(null, "point");
+	        }
+	        xml.endTag(null, "drawing");
+		} catch (IOException ex) {
+			
+		}
+	}
+	
+	public void loadXml(XmlPullParser xml) throws XmlPullParserException, IOException {
+		params.color = Integer.parseInt(xml.getAttributeValue(null, "color"));
+		params.width = Float.parseFloat(xml.getAttributeValue(null, "width"));
+		
+		while(xml.nextTag() == XmlPullParser.START_TAG) {
+            if(xml.getName().equals("point")) {
+                Point p = new Point(Float.parseFloat(xml.getAttributeValue(null, "x")), 
+                		Float.parseFloat(xml.getAttributeValue(null, "y")));
+                points.add(p);
+            }
+            Cloud.skipToEndTag(xml);
+        }  
 	}
 	
 }

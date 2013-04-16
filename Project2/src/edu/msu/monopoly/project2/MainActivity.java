@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -304,4 +303,5 @@ public class MainActivity extends Activity {
     private void setActivityWaiting(Game game) {
     	sequencer.setActivityWaiting(game, this);
     }
+    
 }

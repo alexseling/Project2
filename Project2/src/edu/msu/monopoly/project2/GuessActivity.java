@@ -1,5 +1,7 @@
 package edu.msu.monopoly.project2;
 
+import java.io.InputStream;
+
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.app.Activity;
@@ -102,13 +104,28 @@ public class GuessActivity extends Activity {
 		setContentView(R.layout.activity_guess);
 
 		drawingView = (DrawingView)findViewById(R.id.guessingView);
-		drawingView.setEditable(false);
 		
 		Intent intent = getIntent();
 		if (intent != null) {
 			game = (Game)intent.getSerializableExtra(GAME);
 			drawingView.getDrawings(intent);
 		}
+		
+		new Thread(new Runnable() {
+            
+            @Override
+            public void run() {
+        		Cloud c = new Cloud();
+        		InputStream stream = c.loadGame(game.getPlayer1Name(), game.getPassword());
+        		InputStream dvStream = stream;
+        		
+        		game.getInfoFromInputStream(stream);
+        		drawingView.loadXml(dvStream);
+            }
+            
+        }).start();
+		
+		drawingView.setEditable(false);
 
         /*
          * Restore any state
@@ -228,6 +245,16 @@ public class GuessActivity extends Activity {
      * Handle an Ok button press
      */
 	public void onOk() {
+        new Thread(new Runnable() {
+            
+            @Override
+            public void run() {
+        		Cloud c = new Cloud();
+        		c.saveGame(game, "1", null);
+            }
+            
+        }).start();
+ 	   finish();
     	Intent intent = new Intent(this, EditActivity.class);
     	intent.putExtra(GAME, game);
 		startActivity(intent);
@@ -250,6 +277,15 @@ public class GuessActivity extends Activity {
 	        alertDialogBuilder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 	               @Override
 	               public void onClick(DialogInterface dialog, int id) {
+	                   new Thread(new Runnable() {
+	                       
+	                       @Override
+	                       public void run() {
+	                   		Cloud c = new Cloud();
+	                   		c.logout(game.getPlayer1Name(), game.getPassword());
+	                       }
+	                       
+	                   }).start();
 	            	   finish();
 	               }
 	        })

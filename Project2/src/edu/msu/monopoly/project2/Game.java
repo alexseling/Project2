@@ -1,8 +1,15 @@
 package edu.msu.monopoly.project2;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
+import android.util.Xml;
 
 public class Game implements Serializable {
 	
@@ -12,6 +19,8 @@ public class Game implements Serializable {
 	private static final long serialVersionUID = -5154840961469873261L;
 
 	private final int maxScore = 500;
+
+	private String gameId = "";
 	
 	private int editingPlayer = 1;
 	
@@ -36,6 +45,12 @@ public class Game implements Serializable {
 	private String category = "";
 	
 	private String password = "";
+	
+	private String serverp1 = "";
+	
+	private String serverp2 = "";
+	
+	private String p1Drawing = "";
 	
 	private Random randomNumberGenerator = new Random();
 	
@@ -234,5 +249,101 @@ public class Game implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public boolean getInfoFromInputStream(InputStream stream) {
+		try {
+            XmlPullParser xml = Xml.newPullParser();
+            xml.setInput(stream, "UTF-8");       
+            
+            xml.nextTag();      // Advance to first tag
+            xml.require(XmlPullParser.START_TAG, null, "userinfo");
+            String status = xml.getAttributeValue(null, "status");
+            if(status.equals("yes")) {
+            
+                while(xml.nextTag() == XmlPullParser.START_TAG) {
+                	
+                	// When we find a game tag, load the attributes
+                    if(xml.getName().equals("game")) {
+                    	gameId = xml.getAttributeValue(null, "id");
+                    	serverp1 = xml.getAttributeValue(null, "p1");
+                    	serverp2 = xml.getAttributeValue(null, "p2");
+                    	String p1DrawingTemp = xml.getAttributeValue(null, "p1drawing");
+                    	if (!p1DrawingTemp.equals(p1Drawing)) {
+                    		swapPlayers();
+                    	}
+                    	
+                    	
+             
+                        category = xml.getAttributeValue(null, "category");
+                        answer = xml.getAttributeValue(null, "answer");
+                        tip = xml.getAttributeValue(null, "hint");
+                        player1Score = Integer.parseInt(xml.getAttributeValue(null, "p1score"));
+                        player2Score = Integer.parseInt(xml.getAttributeValue(null, "p2score"));
+                        break;
+                    }
+                    
+                    Cloud.skipToEndTag(xml);
+                }
+            } else {
+            	return false;
+            }
+            
+        } catch(IOException ex) {
+        	return false;
+        } catch(XmlPullParserException ex) {
+        	return false;
+        } finally {
+            if(stream != null) {
+                try {
+                    stream.close();
+                } catch(IOException ex) {
+                    // Fail silently
+                }
+            }
+        }
+		return true;
+	}
+
+	/**
+	 * @return the serverp1
+	 */
+	public String getServerp1() {
+		return serverp1;
+	}
+
+	/**
+	 * @param serverp1 the serverp1 to set
+	 */
+	public void setServerp1(String serverp1) {
+		this.serverp1 = serverp1;
+	}
+
+	/**
+	 * @return the serverp2
+	 */
+	public String getServerp2() {
+		return serverp2;
+	}
+
+	/**
+	 * @param serverp2 the serverp2 to set
+	 */
+	public void setServerp2(String serverp2) {
+		this.serverp2 = serverp2;
+	}
+	
+	/**
+	 * @return the gameId
+	 */
+	public String getGameId() {
+		return gameId;
+	}
+
+	/**
+	 * @param gameId the gameId to set
+	 */
+	public void setGameId(String gameId) {
+		this.gameId = gameId;
 	}
 }

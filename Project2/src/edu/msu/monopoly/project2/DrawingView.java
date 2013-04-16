@@ -1,15 +1,17 @@
 package edu.msu.monopoly.project2;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlSerializer;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcel;
 import android.util.AttributeSet;
+import android.util.Xml;
 import android.view.MotionEvent;
 import android.view.View;
 import android.graphics.Canvas;
@@ -454,15 +456,47 @@ public class DrawingView extends View {
 	}
 	
 	public void saveXml(XmlSerializer xml) throws IOException {
-		Parcel p = Parcel.obtain();
-		p.writeSerializable(picture);
-        xml.startTag(null, "picture");
-        xml.attribute(null, "drawing", p.marshall().toString());
-        xml.endTag(null,  "picture");
+		String pictureStr = picture.getXml();
+        xml.attribute(null, "picture", pictureStr);
 	}
 	
-	public void loadXml (XmlPullParser xml) throws IOException {
-		
+	public boolean loadXml (InputStream stream) {
+		try {
+            XmlPullParser xml = Xml.newPullParser();
+            xml.setInput(stream, "UTF-8");   
+            picture = new Picture();
+            xml.nextTag();      // Advance to first tag
+            xml.require(XmlPullParser.START_TAG, null, "userinfo");
+            String status = xml.getAttributeValue(null, "status");
+            if(status.equals("yes")) {
+            
+                while(xml.nextTag() == XmlPullParser.START_TAG) {
+                	
+                	// When we find a picture tag, load the attributes
+                    if(xml.getName().equals("game")) {
+                    	picture.loadXml(xml.getAttributeValue(null, "picture"));
+                    }
+                    
+                    Cloud.skipToEndTag(xml);
+                }
+            } else {
+            	return false;
+            }
+            
+        } catch(IOException ex) {
+        	return false;
+        } catch(XmlPullParserException ex) {
+        	return false;
+        } finally {
+            /*if(stream != null) {
+                try {
+                    stream.close();
+                } catch(IOException ex) {
+                    // Fail silently
+                }
+            }*/
+        }
+		return true;
 	}
 
 	public void setEraserWidth(float eraserWidth) {
